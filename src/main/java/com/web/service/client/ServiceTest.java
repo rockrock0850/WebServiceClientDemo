@@ -14,7 +14,13 @@ package com.web.service.client;
 
 import java.rmi.RemoteException;
 
-import com.web.service.client.demo.calculator.CalculatorSoapProxy;
+import javax.xml.rpc.ServiceException;
+
+import org.tempuri.CalculatorLocator;
+import org.tempuri.CalculatorSoap;
+import org.tempuri.CalculatorSoapProxy;
+
+import com.web.service.client.demo.hello.HelloWorldService;
 import com.web.service.client.demo.hello.HelloWorldServiceProxy;
 
 /**
@@ -23,13 +29,17 @@ import com.web.service.client.demo.hello.HelloWorldServiceProxy;
  */
 public class ServiceTest {
 	
-	public static void main(String[] args) throws RemoteException {
-		HelloWorldServiceProxy helloWorldServiceProxy = new HelloWorldServiceProxy();
+	public static void main(String[] args) throws RemoteException, ServiceException {
+		HelloWorldService helloWorldServiceProxy = new HelloWorldServiceProxy();
 		Object result = (String) helloWorldServiceProxy.sayHelloWorld("hello");
 		System.out.println(result);
 
 		CalculatorSoapProxy calculatorSoapProxy = new CalculatorSoapProxy();
 		result = (Integer) calculatorSoapProxy.add(15, 15);
+		System.out.println(result);
+
+		CalculatorSoap service = new CalculatorLocator().getCalculatorSoap();
+		result = (Integer) service.add(15, 15);
 		System.out.println(result);
 	}
 	
